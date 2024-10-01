@@ -8,9 +8,10 @@ public class TheSphere : MonoBehaviour
     private Rigidbody Rigidbody;
     public float MaxSpeed = 50;
     float BrakeSpeed;
-    float Acceleration ;
+    public float Acceleration ;
     float Deceleration;
-    private float CurrentSpeed = 0;
+    float previousSpeed = 0;
+    public float CurrentSpeed = 0;
     public float RotateSpeed = 90;
     public ParticleSystem frictionParticule;
     Camera playercam;
@@ -29,7 +30,9 @@ public class TheSphere : MonoBehaviour
 
         Move();
 
+
     }
+
     private void Move()
     {
         Vector3 Jump = Vector3.zero;
