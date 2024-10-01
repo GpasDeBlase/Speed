@@ -15,15 +15,26 @@ public class Camfollow : MonoBehaviour
     public Vector3 VisualRotation = new Vector3(0,0,0);
     float PrevMp = 0;
     private TheSphere TheSphere;
+
     [Header("Paramètres de FOV")]
     [SerializeField] private int FovMin = 85;
     [SerializeField] private int FovMax = 105;
+
+    // positions camera
+    private Vector3 farCam;
+    private Vector3 nearCam;
+    [SerializeField] private float camSpeed = 300;
+    private float _velocity = 0;
 
 
     void Start()
     {
         PrevMp = Input.mousePosition.y;
         TheSphere = this.transform.parent.parent.GetComponent<TheSphere>();
+
+        // setup farcam et nearcam
+        farCam = this.transform.localPosition + new Vector3(0f, 0f, -5f);
+        nearCam = this.transform.localPosition - new Vector3(0f, 0f, 5f);
 
     }
 
@@ -32,6 +43,8 @@ public class Camfollow : MonoBehaviour
     {
         Fov();
         CamPos();
+
+
 
         if(Target != null)
         {
@@ -96,18 +109,12 @@ public class Camfollow : MonoBehaviour
     {
         // changement de FOV suivant la vitesse
         float i = TheSphere.CurrentSpeed / TheSphere.MaxSpeed;
-
         this.GetComponent<Camera>().fieldOfView = Mathf.Lerp(FovMin, FovMax, i);
-
     }
 
     void CamPos()
     {
-
-
-
-
-
-
+        this.transform.localPosition = new Vector3(0f, 0f, Mathf.SmoothDamp(this.transform.localPosition.z, -TheSphere._acceleration / 10, ref _velocity, camSpeed * Time.deltaTime) );
     }
+
 }

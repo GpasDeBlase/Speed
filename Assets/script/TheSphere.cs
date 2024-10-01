@@ -15,6 +15,7 @@ public class TheSphere : MonoBehaviour
     public float RotateSpeed = 90;
     public ParticleSystem frictionParticule;
     Camera playercam;
+    public float _acceleration;
     void Start()
     {
         Rigidbody = GetComponent<Rigidbody>();
@@ -29,6 +30,8 @@ public class TheSphere : MonoBehaviour
     {
 
         Move();
+        _acceleration = (CurrentSpeed - previousSpeed)/Time.deltaTime;
+        previousSpeed = CurrentSpeed;
 
 
     }
