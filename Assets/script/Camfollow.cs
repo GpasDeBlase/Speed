@@ -15,8 +15,9 @@ public class Camfollow : MonoBehaviour
     public Vector3 VisualRotation = new Vector3(0,0,0);
     float PrevMp = 0;
     private TheSphere TheSphere;
+    private Vector3 camPos;
 
-    [Header("Paramètres de FOV")]
+    [Header("Paramï¿½tres de FOV")]
     [SerializeField] private int FovMin = 85;
     [SerializeField] private int FovMax = 105;
 
@@ -31,18 +32,28 @@ public class Camfollow : MonoBehaviour
     {
         PrevMp = Input.mousePosition.y;
         TheSphere = this.transform.parent.parent.GetComponent<TheSphere>();
-
-        // setup farcam et nearcam
-        farCam = this.transform.localPosition + new Vector3(0f, 0f, -5f);
-        nearCam = this.transform.localPosition - new Vector3(0f, 0f, 5f);
+        camPos = this.transform.localPosition;
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        Fov();
-        CamPos();
+        bool i = true;
+        if (Input.GetKeyDown(KeyCode.F)) i = !i;
+        
+        if (i)
+        {
+            Fov();
+            CamPos();
+        }
+        else
+        {
+            this.GetComponent<Camera>().fieldOfView = FovMin;
+            this.transform.localPosition = camPos;
+
+        }
+        
 
 
 
